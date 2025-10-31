@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Book a Room - Hotel Management System{% endblock %}
+
+{% block content %}
+<h2>Book a Room</h2>
+
+{% if rooms %}
+    <form method="POST" action="{{ url_for('process_booking') }}" class="booking-form">
+        <div class="form-group">
+            <label for="room_id">Select Room:</label>
+            <select id="room_id" name="room_id" required>
+                <option value="">-- Select a Room --</option>
+                {% for room in rooms %}
+                <option value="{{ room.room_id }}">
+                    Room {{ room.room_number }} - {{ room.room_type }} - ${{ "%.2f"|format(room.price_per_night) }}/night
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="check_in">Check-in Date:</label>
+                <input type="date" id="check_in" name="check_in" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="check_out">Check-out Date:</label>
+                <input type="date" id="check_out" name="check_out" required>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Book Now</button>
+    </form>
+    
+    <h3>Available Rooms</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Room Number</th>
+                <th>Type</th>
+                <th>Price/Night</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td>{{ room.room_number }}</td>
+                <td>{{ room.room_type }}</td>
+                <td>${{ "%.2f"|format(room.price_per_night) }}</td>
+                <td>
+                    <span class="status {{ room.status.lower() }}">
+                        {{ room.status }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No rooms are currently available for booking.</p>
+{% endif %}
+
+<script>
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('check_in').min = today;
+    document.getElementById('check_out').min = today;
+    
+    // Ensure check-out date is after check-in date
+    document.getElementById('check_in').addEventListener('change', function() {
+        const checkInDate = this.value;
+        document.getElementById('check_out').min = checkInDate;
+    });
+</script>
+{% endblock %}

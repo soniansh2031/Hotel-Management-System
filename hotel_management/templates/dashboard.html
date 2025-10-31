@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Hotel Management System{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<div class="stats-container">
+    <div class="stat-card">
+        <h3>Total Rooms</h3>
+        <p class="stat-number">{{ total_rooms }}</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Available Rooms</h3>
+        <p class="stat-number">{{ available_rooms }}</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Booked Rooms</h3>
+        <p class="stat-number">{{ booked_rooms }}</p>
+    </div>
+    
+    <div class="stat-card">
+        <h3>Total Revenue</h3>
+        <p class="stat-number">${{ "%.2f"|format(total_revenue) }}</p>
+    </div>
+</div>
+
+<h3>All Rooms</h3>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Room Number</th>
+            <th>Type</th>
+            <th>Price/Night</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for room in rooms %}
+        <tr>
+            <td>{{ room.room_number }}</td>
+            <td>{{ room.room_type }}</td>
+            <td>${{ "%.2f"|format(room.price_per_night) }}</td>
+            <td>
+                <span class="status {{ room.status.lower() }}">
+                    {{ room.status }}
+                </span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="actions">
+    <a href="{{ url_for('rooms') }}" class="btn btn-primary">Manage Rooms</a>
+</div>
+{% endblock %}

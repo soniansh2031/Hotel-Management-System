@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Confirmation - Hotel Management System{% endblock %}
+
+{% block content %}
+<div class="receipt-container">
+    <h2>Booking Confirmation</h2>
+    
+    <div class="receipt-header">
+        <h3>🏨 Hotel Management System</h3>
+        <p>Booking Receipt</p>
+    </div>
+    
+    <div class="receipt-details">
+        <div class="receipt-section">
+            <h4>Booking Information</h4>
+            <p><strong>Booking ID:</strong> {{ booking.booking_id }}</p>
+            <p><strong>Customer:</strong> {{ booking.username }}</p>
+            <p><strong>Room Number:</strong> {{ booking.room_number }}</p>
+            <p><strong>Room Type:</strong> {{ booking.room_type }}</p>
+        </div>
+        
+        <div class="receipt-section">
+            <h4>Stay Details</h4>
+            <p><strong>Check-in Date:</strong> {{ booking.check_in }}</p>
+            <p><strong>Check-out Date:</strong> {{ booking.check_out }}</p>
+            <p><strong>Number of Nights:</strong> {{ days }} nights</p>
+        </div>
+        
+        <div class="receipt-section">
+            <h4>Charges</h4>
+            <p><strong>Room Rate:</strong> ${{ "%.2f"|format(booking.total_amount / days) }} per night</p>
+            <p><strong>Total Amount:</strong> ${{ "%.2f"|format(booking.total_amount) }}</p>
+        </div>
+    </div>
+    
+    <div class="receipt-footer">
+        <p>Thank you for choosing our hotel!</p>
+        <p>Please keep this receipt for your records.</p>
+    </div>
+    
+    <div class="receipt-actions">
+        <a href="{{ url_for('book_room') }}" class="btn btn-primary">Book Another Room</a>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Return to Home</a>
+    </div>
+</div>
+{% endblock %}

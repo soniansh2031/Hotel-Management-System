@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Customer Management - Hotel Management System{% endblock %}
+
+{% block content %}
+<h2>Customer Management</h2>
+
+<!-- Add Customer Form -->
+<div class="form-container">
+    <h3>Add New Customer</h3>
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Save Customer</button>
+    </form>
+</div>
+
+<!-- Customers Table -->
+<h3>Customer Records</h3>
+{% if customers %}
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+            <tr>
+                <td>{{ customer.customer_id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.email }}</td>
+                <td>{{ customer.phone }}</td>
+                <td>{{ customer.address }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>No customers found in the system.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <h2>Welcome to Our Hotel Management System</h2>
+    <p>Your one-stop solution for managing hotel rooms, bookings, and customer information.</p>
+    
+    <div class="features">
+        <div class="feature-card">
+            <h3>🔑 Login & Registration</h3>
+            <p>Secure login system with separate roles for admins and customers.</p>
+        </div>
+        
+        <div class="feature-card">
+            <h3>🛏️ Room Management</h3>
+            <p>Admins can easily add, edit, and manage room details and availability.</p>
+        </div>
+        
+        <div class="feature-card">
+            <h3>📅 Booking System</h3>
+            <p>Customers can browse available rooms and make reservations online.</p>
+        </div>
+        
+        <div class="feature-card">
+            <h3>💰 Billing System</h3>
+            <p>Automatic calculation of room charges based on stay duration.</p>
+        </div>
+    </div>
+    
+    <div class="cta-section">
+        {% if session.user_id %}
+            {% if session.user_role == 'admin' %}
+                <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Go to Admin Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('book_room') }}" class="btn btn-primary">Book a Room</a>
+            {% endif %}
+        {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-primary">Login to Get Started</a>
+            <a href="{{ url_for('register') }}" class="btn btn-secondary">Create Account</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
